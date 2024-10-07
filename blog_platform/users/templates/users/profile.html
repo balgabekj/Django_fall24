@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Профиль пользователя</h1>
+    {% if profile.profile_picture %}
+    <img src="{{ profile.profile_picture.url }}" alt="Фото профиля" width="150" height="150">
+    {% else %}
+    <p>Фото профиля не загружено</p>
+    {% endif %}
+
+    <p><strong>Имя пользователя:</strong> {{ profile.user.username }}</p>
+    <p><strong>Email:</strong> {{ profile.user.email }}</p>
+    <p><strong>Биография:</strong> {{ profile.bio }}</p>
+
+    <a href="{% url 'edit_profile' %}">Редактировать профиль</a><br><br>
+
+    <!-- Секция для подписок -->
+    <h2>Подписки</h2>
+    <form action="{% url 'follow_user' profile.user.username %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Подписаться</button>
+    </form>
+
+    <form action="{% url 'unfollow_user' profile.user.username %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Отписаться</button>
+    </form>
+
+    <a href="{% url 'post_list' %}">Вернуться к постам</a>
+</body>
+</html>

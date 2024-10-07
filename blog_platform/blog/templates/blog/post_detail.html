@@ -1,0 +1,17 @@
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+<p>By {{ post.author }} on {{ post.created_at }}</p>
+
+<h2>Comments</h2>
+<ul>
+    {% for comment in comments %}
+    <li>{{ comment.content }} by {{ comment.author }} on {{ comment.created_at }}</li>
+    {% endfor %}
+    <a href="{% url 'add_comment' post.id %}">Add comment</a>
+</ul>
+
+<a href="{% url 'post_edit' post.id %}">Edit Post</a>
+<form method="POST" action="{% url 'post_delete' post.id %}">
+    {% csrf_token %}
+    <button type="submit">Delete Post</button>
+</form>
